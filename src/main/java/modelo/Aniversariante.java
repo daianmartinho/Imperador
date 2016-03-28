@@ -3,9 +3,11 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -66,7 +68,7 @@ public class Aniversariante
 
 	//  Um Aniversariante possui festas
 
-	private List<Festa> festas = new ArrayList<>();
+	private List<Festa> festas;
 	
 	// ********* Construtores *********
 
@@ -214,7 +216,7 @@ public class Aniversariante
 	
 	// ********* M�todos para Associa��es *********
 
-	@OneToMany(mappedBy = "aniversariante")
+	@OneToMany(mappedBy = "aniversariante", targetEntity = Festa.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@OrderBy
 	/*
 	 * Com o atributo mappedBy. Sem ele a  JPA ir� procurar  pela 
@@ -230,5 +232,7 @@ public class Aniversariante
 	public void setFestas(List<Festa> festas)
 	{	this.festas = festas;	
 	}
+        
+      
 }
 

@@ -1,5 +1,6 @@
 package modelo;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,15 +26,23 @@ import util.Util;
 @NamedQueries(
 		{	@NamedQuery
 			(	name = "Festa.recuperaListaDeFestas",
-				query = "select f from Festa f order by f.id"
-			),
+				query = "select f from Festa f left outer join fetch f.aniversariante order by f.id"
+			),                        
 			@NamedQuery
 			(	name = "Festa.recuperaUltimaFesta",
 				query = "select f from Festa f where f.aniversariante = ?1 order by f.id desc"
 			),
 			@NamedQuery
-			(	name = "Festa.recuperaFestasDeUmAniversariante",
-				query = "select f from Festa f where f.aniversariante = ?1"
+			(	name = "Festa.recuperaFestasDoAniversariante",
+				query = "select f from Festa f where f.aniversariante.id = ?3"
+			),
+                        @NamedQuery
+			(	name = "Festa.recuperaQtdDeRegistrosDoAniversariante",
+				query = "select Count(f) from Festa f where f.aniversariante.id = ?1"                                
+			),
+                        @NamedQuery
+			(	name = "Festa.recuperaQtdDeRegistros",
+				query = "select Count(f) from Festa f"                                
 			)
 		})
 
@@ -47,10 +56,9 @@ import util.Util;
 //		           allocationSize=1)
 
 public class Festa
-{	private Long id;
-	private String descricao;
-	private Calendar dataInicio;
-        private Calendar dataFim;
+{	private Long id;	
+	private Calendar data;
+        //private Time horario;
 
 	// Uma festa possui um aniversariante
 
@@ -62,10 +70,9 @@ public class Festa
 	{
 	}
 
-	public Festa(String descricao, Calendar dataInicio,Calendar dataFim, Aniversariante aniversariante)
-	{	this.descricao = descricao;
-		this.dataInicio = dataInicio;
-                this.dataFim = dataFim;
+	public Festa(Calendar data, Aniversariante aniversariante)
+	{	this.data = data;
+                //this.dataFim = dataFim;
                 this.aniversariante = aniversariante;
 	}
 
@@ -80,59 +87,54 @@ public class Festa
 	public Long getId()
 	{	return id;
 	}
-        @Column(name="festa_descricao")
-	public String getDescricao()
-	{	return descricao;
-	}
-	
-	@Column(name="festa_timestamp_inicio")
-	@Temporal(TemporalType.DATE)
-	public Calendar getDataInicio()
-	{	return dataInicio;
-	}
-	
-	@Transient
-	public String getDataInicioMasc()
-	{	return Util.calendarToStr(dataInicio);
-	}
         
-        @Column(name="festa_timestamp_fim")
+	@Column(name="festa_datetime")
 	@Temporal(TemporalType.DATE)
-	public Calendar getDataFim()
-	{	return dataFim;
+	public Calendar getData()
+	{	return data;
 	}
 	
 	@Transient
-	public String getDataFimMasc()
-	{	return Util.calendarToStr(dataFim);
+	public String getDataMasc()
+	{	return Util.calendarToStr(data);
 	}
+       
+        
+//        @Column(name="festa_horario")
+//	@Temporal(TemporalType.DATE)
+//	public Time getHorario()
+//	{	return horario;
+//	}
+//	
+//	@Transient
+//	public String getHorarioMasc()
+//	{	return Util.calendarToStr(horario);
+//	}
 	
 	// ********* M�todos do Tipo Set *********
 
 	@SuppressWarnings("unused")
 	private void setId(Long id)
 	{	this.id = id;
-	}
+	}	
 
-	public void setDescricao(String descricao)
-	{	this.descricao = descricao;
-	}
-
-	public void setDataInicio(Calendar dataInicio)
-	{	this.dataInicio = dataInicio;
+	public void setData(Calendar data)
+	{	this.data= data;
 	}
         
-        public void setDataFim(Calendar dataFim)
-	{	this.dataFim = dataFim;
-	}
+//        public void setHorario(Calendar dataFim)
+//	{	this.data = data;
+//	}
 
 	// ********* M�todos para Associa��es *********
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="festa_aniv_id")
+        
+        
 	public Aniversariante getAniversariante()
 	{	return aniversariante;
-	}
+	}        
 	
 	public void setAniversariante(Aniversariante aniversariante)
 	{	this.aniversariante = aniversariante;

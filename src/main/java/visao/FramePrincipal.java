@@ -62,11 +62,17 @@ public class FramePrincipal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList<>();
         aniversariantesPainel = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        jScrollPane6 = new javax.swing.JScrollPane();
         tabelaDeAniversariantes = new javax.swing.JTable();
-        novoBtn = new javax.swing.JButton();
+        novoAniversarianteBtn = new javax.swing.JButton();
         buscarAniversarianteBtn = new javax.swing.JButton();
-        campoBuscaPrimeiroNome = new javax.swing.JTextField();
+        campoBuscarAniversariante = new javax.swing.JTextField();
+        festasPainel = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tabelaDeFestas = new javax.swing.JTable();
+        novaFestaBtn = new javax.swing.JButton();
+        buscarFestaBtn = new javax.swing.JButton();
+        campoBuscaFesta = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,6 +94,11 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
 
         festasBtn.setText("Festas");
+        festasBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                festasBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -177,12 +188,12 @@ public class FramePrincipal extends javax.swing.JFrame {
                 tabelaDeAniversariantesMousePressed(evt);
             }
         });
-        jScrollPane4.setViewportView(tabelaDeAniversariantes);
+        jScrollPane6.setViewportView(tabelaDeAniversariantes);
 
-        novoBtn.setText("Novo aniversariante");
-        novoBtn.addActionListener(new java.awt.event.ActionListener() {
+        novoAniversarianteBtn.setText("Novo Aniversariante");
+        novoAniversarianteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                novoBtnActionPerformed(evt);
+                novoAniversarianteBtnActionPerformed(evt);
             }
         });
 
@@ -200,13 +211,13 @@ public class FramePrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aniversariantesPainelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(aniversariantesPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4)
+                    .addComponent(jScrollPane6)
                     .addGroup(aniversariantesPainelLayout.createSequentialGroup()
-                        .addComponent(novoBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(novoAniversarianteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(116, 116, 116)
                         .addComponent(buscarAniversarianteBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoBuscaPrimeiroNome, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoBuscarAniversariante, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20))
         );
         aniversariantesPainelLayout.setVerticalGroup(
@@ -215,14 +226,78 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(aniversariantesPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(buscarAniversarianteBtn)
-                    .addComponent(campoBuscaPrimeiroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(novoBtn))
+                    .addComponent(campoBuscarAniversariante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(novoAniversarianteBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         bodyContainer.add(aniversariantesPainel, "aniversariantesCard");
+
+        tabelaDeFestas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tabelaDeFestas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tabelaDeFestasMousePressed(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tabelaDeFestas);
+
+        novaFestaBtn.setText("Nova festa");
+        novaFestaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                novaFestaBtnActionPerformed(evt);
+            }
+        });
+
+        buscarFestaBtn.setText("Buscar");
+        buscarFestaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarFestaBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout festasPainelLayout = new javax.swing.GroupLayout(festasPainel);
+        festasPainel.setLayout(festasPainelLayout);
+        festasPainelLayout.setHorizontalGroup(
+            festasPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, festasPainelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(festasPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5)
+                    .addGroup(festasPainelLayout.createSequentialGroup()
+                        .addComponent(novaFestaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(116, 116, 116)
+                        .addComponent(buscarFestaBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoBuscaFesta, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20))
+        );
+        festasPainelLayout.setVerticalGroup(
+            festasPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, festasPainelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(festasPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(buscarFestaBtn)
+                    .addComponent(campoBuscaFesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(novaFestaBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        bodyContainer.add(festasPainel, "festasCard");
+        festasPainel.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -257,34 +332,42 @@ public class FramePrincipal extends javax.swing.JFrame {
         lm.show(bodyContainer,"aniversariantesCard");
     }//GEN-LAST:event_aniversariantesBtnActionPerformed
 
-    private void novoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoBtnActionPerformed
+    private void buscarFestaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarFestaBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarFestaBtnActionPerformed
+
+    private void novaFestaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaFestaBtnActionPerformed
+        DialogFesta dialog = new DialogFesta(this,true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_novaFestaBtnActionPerformed
+
+    private void tabelaDeFestasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeFestasMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaDeFestasMousePressed
+
+    private void tabelaDeAniversariantesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeAniversariantesMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaDeAniversariantesMousePressed
+
+    private void novoAniversarianteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoAniversarianteBtnActionPerformed
         DialogAniversariante dialog = new DialogAniversariante(this,true,tabelaDeAniversariantes);
         dialog.novo();
         dialog.setVisible(true);
         
-    }//GEN-LAST:event_novoBtnActionPerformed
+    }//GEN-LAST:event_novoAniversarianteBtnActionPerformed
 
     private void buscarAniversarianteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAniversarianteBtnActionPerformed
         AniversarianteModel model = new AniversarianteModel();
-        model.setBuscaPorNome(campoBuscaPrimeiroNome.getText());
+        model.setBuscaPorNome(campoBuscarAniversariante.getText());
         tabelaDeAniversariantes.setModel(model);
     }//GEN-LAST:event_buscarAniversarianteBtnActionPerformed
 
-    private void tabelaDeAniversariantesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeAniversariantesMousePressed
-        if(evt.getClickCount()==2){
-            DialogAniversariante dialog = new DialogAniversariante(this,true,tabelaDeAniversariantes);
-            try {
-                dialog.carregaAniversariante((long)tabelaDeAniversariantes.getValueAt(tabelaDeAniversariantes.getSelectedRow(),0));
-                dialog.exibicao();
-                dialog.setVisible(true);
-            } catch (ProdutoNaoEncontradoException ex) {
-                JOptionPane.showMessageDialog(null, "Ops! Aniversariante não encontrado.");
-            }
-            
-        }
-        
-        
-    }//GEN-LAST:event_tabelaDeAniversariantesMousePressed
+    private void festasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_festasBtnActionPerformed
+        CardLayout lm = (CardLayout)bodyContainer.getLayout();
+        FestaModel model = new FestaModel();        
+        tabelaDeFestas.setModel(model);
+        lm.show(bodyContainer,"festasCard");
+    }//GEN-LAST:event_festasBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,8 +409,11 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel aniversariantesPainel;
     private javax.swing.JPanel bodyContainer;
     private javax.swing.JButton buscarAniversarianteBtn;
-    private javax.swing.JTextField campoBuscaPrimeiroNome;
+    private javax.swing.JButton buscarFestaBtn;
+    private javax.swing.JTextField campoBuscaFesta;
+    private javax.swing.JTextField campoBuscarAniversariante;
     private javax.swing.JButton festasBtn;
+    private javax.swing.JPanel festasPainel;
     private javax.swing.JButton inicioBtn;
     private javax.swing.JSplitPane inicioPainel;
     private javax.swing.JLabel jLabel1;
@@ -338,9 +424,12 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSplitPane jSplitPane2;
-    private javax.swing.JButton novoBtn;
+    private javax.swing.JButton novaFestaBtn;
+    private javax.swing.JButton novoAniversarianteBtn;
     private javax.swing.JTable tabelaDeAniversariantes;
+    private javax.swing.JTable tabelaDeFestas;
     // End of variables declaration//GEN-END:variables
 }

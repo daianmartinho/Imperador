@@ -39,44 +39,44 @@ public class FestaAppService
 		// impede que o valor do segundo lance seja  inferior  ao valor do
 		// primeiro.
 	
-		Aniversariante umAniversariante = umaFesta.getAniversariante();
-		
-		try
-		{	umAniversariante = aniversarianteDAO.getPorIdComLock(umAniversariante.getId());
-		}
-		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Aniversariatne não encontrado");
-		}
-
-		Festa ultimaFesta; 
-		try
-		{	ultimaFesta = festaDAO.recuperaUltimaFesta(umAniversariante);
-		}
-		catch(ObjetoNaoEncontradoException e)
-		{	ultimaFesta = null;	
-		}
-	
-		
-		Calendar   dataInicioUltimaFesta;
-                
-		
-		if (ultimaFesta == null)
-		{	
-                    dataInicioUltimaFesta = umAniversariante.getDataCadastro();			
-		}
-		else
-		{	
-                    dataInicioUltimaFesta  = ultimaFesta.getDataInicio();
-		}
-		
-			
-		if(umaFesta.getDataInicio().before(dataInicioUltimaFesta))
-		{	
-			throw new DataDeLanceInvalidaException("A data da festa não pode ser anterior a " 
-					+ Util.calendarToStr(dataInicioUltimaFesta));
-		}
-	
-		GregorianCalendar hoje = new GregorianCalendar();
+//		Aniversariante umAniversariante = umaFesta.getAniversariante();
+//		
+//		try
+//		{	umAniversariante = aniversarianteDAO.getPorIdComLock(umAniversariante.getId());
+//		}
+//		catch(ObjetoNaoEncontradoException e)
+//		{	throw new ProdutoNaoEncontradoException("Aniversariatne não encontrado");
+//		}
+//
+//		Festa ultimaFesta; 
+//		try
+//		{	ultimaFesta = festaDAO.recuperaUltimaFesta(umAniversariante);
+//		}
+//		catch(ObjetoNaoEncontradoException e)
+//		{	ultimaFesta = null;	
+//		}
+//	
+//		
+//		Calendar   dataInicioUltimaFesta;
+//                
+//		
+//		if (ultimaFesta == null)
+//		{	
+//                    dataInicioUltimaFesta = u.getDataCadastro();			
+//		}
+//		else
+//		{	
+//                    dataInicioUltimaFesta  = ultimaFesta.getDataInicio();
+//		}
+//		
+//			
+//		if(umaFesta.getDataInicio().before(dataInicioUltimaFesta))
+//		{	
+//			throw new DataDeLanceInvalidaException("A data da festa não pode ser anterior a " 
+//					+ Util.calendarToStr(dataInicioUltimaFesta));
+//		}
+//	
+//		GregorianCalendar hoje = new GregorianCalendar();
 		
 //		if(umaFesta.getDataInicio().after(hoje))
 //		{	
@@ -122,19 +122,24 @@ public class FestaAppService
 		}
 	}
 
-//	public List<Festa> recuperaFestas()
-//	{	return festaDAO.recuperaListaDeFestas();
-//	}
+	public List<Festa> recuperaFestas(int deslocamento, int linhasPorPagina)
+	{	return festaDAO.recuperaListaDeFestas(deslocamento,linhasPorPagina);
+	}
        public List<Festa> recuperaFestasDoAniversariante(long aniversarianteID) 
 	{	
-		List<Festa> festas = festaDAO.recuperaFestasDoAniversariante(aniversarianteID);
+		List<Festa> festas = festaDAO.recuperaFestasDoAniversariante(-1,-1,aniversarianteID);
 		return festas;
 	}        
         
         
         public int recuperaQtdDeFestasDoAniversariante(long aniversarianteID) 
 	{	
-            int qtd = festaDAO.recuperaQtdDeRegistros(aniversarianteID);
+            int qtd = festaDAO.recuperaQtdDeRegistrosDoAniversariante(aniversarianteID);
+            return qtd;
+	}
+        public int recuperaQtdDeFestas() 
+	{	
+            int qtd = festaDAO.recuperaQtdDeRegistros();
             return qtd;
 	}
 }

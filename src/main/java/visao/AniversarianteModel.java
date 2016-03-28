@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 public class AniversarianteModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 1L;
-
+    public static final int COLUNA_OBJETO = -1;
     public static final int COLUNA_NUMERO = 0;
     public static final int COLUNA_NOME = 1;
     public static final int COLUNA_SOBRENOME = 2;
@@ -124,8 +124,10 @@ public class AniversarianteModel extends AbstractTableModel {
         rowIndexAnterior = rowIndex;
 
         Aniversariante aniversariante = cache.get(rowIndex);
-
-        if (columnIndex == COLUNA_NUMERO) {
+        
+        if (columnIndex == COLUNA_OBJETO) {
+            return aniversariante;
+        } else if (columnIndex == COLUNA_NUMERO) {
             return aniversariante.getId();
         } else if (columnIndex == COLUNA_NOME) {
             return aniversariante.getPrimeiroNome();

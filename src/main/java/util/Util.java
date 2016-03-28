@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class Util
-{	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+{	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");        
 	private static NumberFormat nf = NumberFormat.getInstance(new Locale("pt","BR"));
 
 	static
@@ -68,13 +68,14 @@ public class Util
 	public static String dateToStr(Date umaData)
 	{	return sdf.format(umaData);
 	}
+        
 
 	public static String calendarToStr(Calendar umaData)
 	{
 		if (umaData == null)
 			return "";
-		else
-			return sdf.format(umaData.getTime());
+                else
+                        return sdf.format(umaData.getTime());
 	}
 
 	public static double strToDouble(String valor)
