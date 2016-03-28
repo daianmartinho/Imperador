@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Aniversariante;
+import modelo.Festa;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.AniversarianteAppService;
@@ -247,6 +248,9 @@ public class FramePrincipal extends javax.swing.JFrame {
             }
         ));
         tabelaDeFestas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaDeFestasMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tabelaDeFestasMousePressed(evt);
             }
@@ -338,6 +342,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void novaFestaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaFestaBtnActionPerformed
         DialogFesta dialog = new DialogFesta(this,true);
+        dialog.novo();
         dialog.setVisible(true);
     }//GEN-LAST:event_novaFestaBtnActionPerformed
 
@@ -368,6 +373,16 @@ public class FramePrincipal extends javax.swing.JFrame {
         tabelaDeFestas.setModel(model);
         lm.show(bodyContainer,"festasCard");
     }//GEN-LAST:event_festasBtnActionPerformed
+
+    private void tabelaDeFestasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeFestasMouseClicked
+        if(evt.getClickCount()==2){
+            Festa festa = (Festa)tabelaDeFestas.getModel().getValueAt(tabelaDeFestas.getSelectedRow(),-1);
+            DialogFesta dialog = new DialogFesta(this,true);
+            dialog.setFesta(festa);
+            dialog.salvo();
+            dialog.setVisible(true);
+        }
+    }//GEN-LAST:event_tabelaDeFestasMouseClicked
 
     /**
      * @param args the command line arguments

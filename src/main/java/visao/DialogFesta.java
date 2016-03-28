@@ -5,7 +5,20 @@
  */
 package visao;
 
+import excecao.DataDeLanceInvalidaException;
+import excecao.LanceNaoEncontradoException;
+import excecao.ProdutoNaoEncontradoException;
+import excecao.ValorDeLanceInvalidoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showConfirmDialog;
 import modelo.Aniversariante;
+import modelo.Festa;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import service.FestaAppService;
+import util.Util;
 
 /**
  *
@@ -16,10 +29,22 @@ public class DialogFesta extends javax.swing.JDialog {
     /**
      * Creates new form DialogFesta
      */
-    private Aniversariante aniversariante;
+    public static FestaAppService festaAppService;
+    static {
+        @SuppressWarnings("resource")
+        ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
+        festaAppService = (FestaAppService) fabrica.getBean("festaAppService");
+    }
+    public static final int ESTADO_NOVO = 1;
+    public static final int ESTADO_SALVO = 2;
+    public static final int ESTADO_EDITAVEL = 3;
+    
+    private int estado;
+    private Festa umaFesta;
     public DialogFesta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.umaFesta = new Festa();
     }
 
     /**
@@ -39,6 +64,8 @@ public class DialogFesta extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         buscarAniversarianteBtn = new javax.swing.JButton();
         campoAniversariante = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        campoData = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -72,12 +99,18 @@ public class DialogFesta extends javax.swing.JDialog {
 
         jLabel1.setText("Aniversariante:");
 
-        buscarAniversarianteBtn.setText("Buscar Aniversariante");
+        buscarAniversarianteBtn.setText("Buscar");
         buscarAniversarianteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buscarAniversarianteBtnActionPerformed(evt);
             }
         });
+
+        campoAniversariante.setEditable(false);
+
+        jLabel2.setText("Data:");
+
+        campoData.setText("DD/MM/YYYY HH:mm");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,42 +120,45 @@ public class DialogFesta extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(campoAniversariante))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoAniversariante)
+                            .addComponent(campoData, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buscarAniversarianteBtn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(salvarBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(editarBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(removerBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cancelarBtn))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(buscarAniversarianteBtn)))
-                        .addGap(0, 50, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(24, 24, 24)
+                        .addComponent(salvarBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(editarBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removerBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancelarBtn)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editarBtn)
-                    .addComponent(removerBtn)
-                    .addComponent(salvarBtn)
-                    .addComponent(cancelarBtn))
-                .addGap(38, 38, 38)
-                .addComponent(buscarAniversarianteBtn)
+                    .addComponent(jLabel1)
+                    .addComponent(campoAniversariante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarAniversarianteBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(campoAniversariante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(179, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salvarBtn)
+                    .addComponent(editarBtn)
+                    .addComponent(removerBtn)
+                    .addComponent(cancelarBtn))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -141,15 +177,42 @@ public class DialogFesta extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBtnActionPerformed
-        
+        editavel();
     }//GEN-LAST:event_editarBtnActionPerformed
 
     private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
-        
+        try {
+            int dialogResult = showConfirmDialog(null,"Deseja remover esta festa?","Warning", JOptionPane.YES_NO_OPTION);            
+            if(dialogResult == JOptionPane.YES_OPTION){
+                festaAppService.exclui(this.umaFesta);
+                this.dispose();
+            }
+            
+        } catch (LanceNaoEncontradoException ex) {
+            Logger.getLogger(DialogAniversariante.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_removerBtnActionPerformed
 
     private void salvarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarBtnActionPerformed
-       
+        
+        umaFesta.setData(Util.strToCalendar(campoData.getText()));        
+        try {
+            if(this.estado==ESTADO_NOVO){
+                festaAppService.inclui(umaFesta);
+            }else if(this.estado == ESTADO_EDITAVEL){
+                festaAppService.altera(umaFesta);
+            }
+            this.salvo();
+        } catch (ProdutoNaoEncontradoException ex) {
+            Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValorDeLanceInvalidoException ex) {
+            Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataDeLanceInvalidaException ex) {
+            Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
 
     }//GEN-LAST:event_salvarBtnActionPerformed
 
@@ -164,16 +227,60 @@ public class DialogFesta extends javax.swing.JDialog {
     }//GEN-LAST:event_buscarAniversarianteBtnActionPerformed
 
     public void setAniversariante(Aniversariante a){
-        this.aniversariante = a;
-        this.campoAniversariante.setText(aniversariante.getPrimeiroNome()+" "+aniversariante.getSobrenome());
+        this.umaFesta.setAniversariante(a);
+        this.campoAniversariante.setText(a.getPrimeiroNome()+" "+a.getSobrenome());
+    }
+    public void setFesta(Festa festa){
+        this.umaFesta = festa;
+        this.campoAniversariante.setText(umaFesta.getAniversariante().getPrimeiroNome() + " " + umaFesta.getAniversariante().getSobrenome());
+        this.campoData.setText(Util.calendarToStr(umaFesta.getData()));
     }
 
+    public void novo(){
+        salvarBtn.setEnabled(true);
+        editarBtn.setEnabled(false);
+        removerBtn.setEnabled(false);
+        cancelarBtn.setEnabled(true);
+        
+        campoData.setEditable(true);
+        
+        this.estado = ESTADO_NOVO;
+    }
+    
+    public void salvo(){
+        salvarBtn.setEnabled(false);
+        editarBtn.setEnabled(true);
+        removerBtn.setEnabled(true);
+        cancelarBtn.setEnabled(true);
+        
+        campoData.setEditable(false);
+        
+        this.estado = ESTADO_SALVO;
+    }
+    
+    public void editavel(){
+        salvarBtn.setEnabled(true);
+        editarBtn.setEnabled(false);
+        removerBtn.setEnabled(false);
+        cancelarBtn.setEnabled(true);
+        
+        campoData.setEditable(true);
+        
+        this.estado = ESTADO_EDITAVEL;
+    }
+    
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscarAniversarianteBtn;
     private javax.swing.JTextField campoAniversariante;
+    private javax.swing.JTextField campoData;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JButton editarBtn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton removerBtn;
     private javax.swing.JButton salvarBtn;

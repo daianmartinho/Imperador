@@ -63,6 +63,11 @@ public class DialogTabelaAniversariantes extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabelaDeAniversariantes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaDeAniversariantesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaDeAniversariantes);
 
         confirmarBtn.setText("Ok");
@@ -145,6 +150,12 @@ public class DialogTabelaAniversariantes extends javax.swing.JDialog {
         parent.setAniversariante(aniversarianteSelecionado);
         this.dispose();
     }//GEN-LAST:event_confirmarBtnActionPerformed
+
+    private void tabelaDeAniversariantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeAniversariantesMouseClicked
+        if(evt.getClickCount()==2){
+            confirmarBtnActionPerformed(null);
+        }
+    }//GEN-LAST:event_tabelaDeAniversariantesMouseClicked
 
   
 

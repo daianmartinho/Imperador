@@ -25,7 +25,8 @@ public class FestaModel extends AbstractTableModel {
 
     private static Logger logger = LogManager.getLogger(FestaModel.class);
     private static final long serialVersionUID = 1L;
-
+    
+    public static final int COLUNA_OBJETO = -1;
     public static final int COLUNA_NUMERO = 0;    
     public static final int COLUNA_DATA = 1;
     public static final int COLUNA_ANIVERSARIANTE = 2;
@@ -135,21 +136,19 @@ public class FestaModel extends AbstractTableModel {
 
         Festa festa = cache.get(rowIndex);
 
-        if (columnIndex == COLUNA_NUMERO) {
+        if (columnIndex == COLUNA_OBJETO) {
+            return festa;
+        }
+        else if (columnIndex == COLUNA_NUMERO) {
             return festa.getId();
         }
-        if (columnIndex == COLUNA_DATA) {
+        else if (columnIndex == COLUNA_DATA) {
             return festa.getDataMasc();
         }
-        if (columnIndex == COLUNA_ANIVERSARIANTE) {             
+        else if (columnIndex == COLUNA_ANIVERSARIANTE) {             
             return festa.getAniversariante().getPrimeiroNome();            
         }
-//        if (columnIndex == COLUNA_INICIO) {
-//            return festa.getDataInicioMasc();
-//        }
-//        if (columnIndex == COLUNA_FIM) {
-//            return festa.getDataFimMasc();
-//        } 
+
         else {
             return null;
         }
