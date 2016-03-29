@@ -21,6 +21,7 @@ import modelo.Aniversariante;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.AniversarianteAppService;
+import util.Util;
 
 /**
  *
@@ -39,7 +40,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
     /**
      * Creates new form DialogAniversariante
      */
-    public DialogAniversariante(java.awt.Frame parent, boolean modal, JTable tabelaDeAniversariantes) {
+    public DialogAniversariante(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();           
     }
@@ -56,7 +57,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tabelaDeFestas = new javax.swing.JTable();
+        tabelaDeFestasDoAniversariante = new javax.swing.JTable();
         editarBtn = new javax.swing.JButton();
         removerBtn = new javax.swing.JButton();
         primeiroNomeCampo = new javax.swing.JTextField();
@@ -85,7 +86,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        tabelaDeFestas.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaDeFestasDoAniversariante.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -96,7 +97,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(tabelaDeFestas);
+        jScrollPane2.setViewportView(tabelaDeFestasDoAniversariante);
 
         editarBtn.setText("Editar");
         editarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -308,8 +309,15 @@ public class DialogAniversariante extends javax.swing.JDialog {
         umAniversariante.setPrimeiroNome(primeiroNomeCampo.getText());
         umAniversariante.setSobrenome(sobrenomeCampo.getText());
         umAniversariante.setSexo(mascRadio.isSelected() ? 1 : 0);
+        umAniversariante.setDataAniversario(Util.strToCalendar(dataAniversarioCampo.getText()));
+        umAniversariante.setNomeDaMae(nomeDaMaeCampo.getText());
+        umAniversariante.setNomeDoPai(nomeDoPaiCampo.getText());
+        umAniversariante.setEndereco(enderecoCampo.getText());
+        umAniversariante.setTelefone(telefoneCampo.getText());
+        umAniversariante.setEmail(emailCampo.getText());
+        
         aniversarianteAppService.inclui(umAniversariante);
-        AniversarianteModel model = new AniversarianteModel();
+        TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
         model.setBuscaPorNome("");
         this.tabelaDeAniversariantes.setModel(model);
         this.salvo();
@@ -319,7 +327,11 @@ public class DialogAniversariante extends javax.swing.JDialog {
     }//GEN-LAST:event_salvarBtnActionPerformed
 
     private void novaFestaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaFestaBtnActionPerformed
-        // TODO add your handling code here:
+        DialogFesta dialog = new DialogFesta(this,true,(TabelaDeFestasDoAniversarianteModel)tabelaDeFestasDoAniversariante.getModel());
+        dialog.setAniversariante(this.umAniversariante.getId());
+        dialog.novo(false);
+        dialog.setVisible(true);
+        
     }//GEN-LAST:event_novaFestaBtnActionPerformed
 
     private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
@@ -328,7 +340,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
             if(dialogResult == JOptionPane.YES_OPTION){
                 aniversarianteAppService.exclui(this.umAniversariante);
                 
-                AniversarianteModel model = new AniversarianteModel();
+                TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
                 model.setBuscaPorNome("");                
                 tabelaDeAniversariantes.setModel(model);
                 this.dispose();
@@ -348,6 +360,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
         editarBtn.setEnabled(false);
         removerBtn.setEnabled(false);
         cancelarBtn.setEnabled(true);
+        novaFestaBtn.setEnabled(false);
         habilitarEdicao(true);
     }
     public void editavel() {
@@ -355,6 +368,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
         editarBtn.setEnabled(false);
         removerBtn.setEnabled(true);
         cancelarBtn.setEnabled(true);
+        novaFestaBtn.setEnabled(true);
         habilitarEdicao(true);
     }
     public void exibicao() {
@@ -362,6 +376,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
         editarBtn.setEnabled(true);
         removerBtn.setEnabled(true);
         cancelarBtn.setEnabled(true);
+        novaFestaBtn.setEnabled(true);
         habilitarEdicao(false);
     }
     
@@ -370,6 +385,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
         editarBtn.setEnabled(true);
         removerBtn.setEnabled(true);
         cancelarBtn.setEnabled(true);
+        novaFestaBtn.setEnabled(true);
         habilitarEdicao(false);
         
     }
@@ -386,18 +402,22 @@ public class DialogAniversariante extends javax.swing.JDialog {
         emailCampo.setEditable(valor);
     }
     
-    public void carregaAniversariante(long aniversarianteID) throws ProdutoNaoEncontradoException{
+    public void setAniversariante(long aniversarianteID){
         
-        this.umAniversariante = aniversarianteAppService.recuperaUmAniversariante(aniversarianteID);
-        FestaModel festaModel = new FestaModel();
-        festaModel.setBuscaPorAniversarianteID(aniversarianteID);
-        tabelaDeFestas.setModel(festaModel);             
-        primeiroNomeCampo.setText(umAniversariante.getPrimeiroNome());
-        sobrenomeCampo.setText(umAniversariante.getSobrenome());
-        if(umAniversariante.getSexo() == 1){
-            mascRadio.setEnabled(true);
-        }else{
-            femRadio.setEnabled(true);
+        try {
+            this.umAniversariante = aniversarianteAppService.recuperaUmAniversarianteEFestas(aniversarianteID);
+            TabelaDeFestasDoAniversarianteModel model = new TabelaDeFestasDoAniversarianteModel(this.umAniversariante.getFestas());            
+            tabelaDeFestasDoAniversariante.setModel(model);             
+            primeiroNomeCampo.setText(umAniversariante.getPrimeiroNome());
+            sobrenomeCampo.setText(umAniversariante.getSobrenome());
+            if(umAniversariante.getSexo() == 1){
+                mascRadio.setEnabled(true);
+            }else{
+                femRadio.setEnabled(true);
+            }
+        
+        } catch (ProdutoNaoEncontradoException ex) {
+            Logger.getLogger(DialogAniversariante.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -431,7 +451,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
     private javax.swing.JButton salvarBtn;
     private javax.swing.JTextField sobrenomeCampo;
     private javax.swing.JLabel sobrenomeLabel;
-    private javax.swing.JTable tabelaDeFestas;
+    private javax.swing.JTable tabelaDeFestasDoAniversariante;
     private javax.swing.JFormattedTextField telefoneCampo;
     private javax.swing.JLabel telefoneLabel;
     // End of variables declaration//GEN-END:variables

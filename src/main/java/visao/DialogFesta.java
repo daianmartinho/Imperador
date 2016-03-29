@@ -13,12 +13,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showConfirmDialog;
+import javax.swing.JTable;
 import modelo.Aniversariante;
 import modelo.Festa;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.FestaAppService;
 import util.Util;
+import static visao.DialogAniversariante.aniversarianteAppService;
 
 /**
  *
@@ -30,6 +32,7 @@ public class DialogFesta extends javax.swing.JDialog {
      * Creates new form DialogFesta
      */
     public static FestaAppService festaAppService;
+
     static {
         @SuppressWarnings("resource")
         ApplicationContext fabrica = new ClassPathXmlApplicationContext("beans-jpa.xml");
@@ -38,13 +41,22 @@ public class DialogFesta extends javax.swing.JDialog {
     public static final int ESTADO_NOVO = 1;
     public static final int ESTADO_SALVO = 2;
     public static final int ESTADO_EDITAVEL = 3;
-    
+
     private int estado;
+    private TabelaDeFestasDoAniversarianteModel tabelaDeFestasDoAniversarianteModel = null;
     private Festa umaFesta;
+
     public DialogFesta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.umaFesta = new Festa();
+    }
+
+    public DialogFesta(java.awt.Dialog parent, boolean modal, TabelaDeFestasDoAniversarianteModel model) {
+        super(parent, modal);
+        initComponents();
+        this.umaFesta = new Festa();
+        this.tabelaDeFestasDoAniversarianteModel = model;
     }
 
     /**
@@ -59,7 +71,7 @@ public class DialogFesta extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         editarBtn = new javax.swing.JButton();
         removerBtn = new javax.swing.JButton();
-        salvarBtn = new javax.swing.JButton();
+        incluirBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         buscarAniversarianteBtn = new javax.swing.JButton();
@@ -83,10 +95,10 @@ public class DialogFesta extends javax.swing.JDialog {
             }
         });
 
-        salvarBtn.setText("Salvar");
-        salvarBtn.addActionListener(new java.awt.event.ActionListener() {
+        incluirBtn.setText("Incluir");
+        incluirBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salvarBtnActionPerformed(evt);
+                incluirBtnActionPerformed(evt);
             }
         });
 
@@ -131,7 +143,7 @@ public class DialogFesta extends javax.swing.JDialog {
                         .addComponent(buscarAniversarianteBtn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(salvarBtn)
+                        .addComponent(incluirBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(editarBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -154,7 +166,7 @@ public class DialogFesta extends javax.swing.JDialog {
                     .addComponent(campoData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(salvarBtn)
+                    .addComponent(incluirBtn)
                     .addComponent(editarBtn)
                     .addComponent(removerBtn)
                     .addComponent(cancelarBtn))
@@ -182,25 +194,26 @@ public class DialogFesta extends javax.swing.JDialog {
 
     private void removerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBtnActionPerformed
         try {
-            int dialogResult = showConfirmDialog(null,"Deseja remover esta festa?","Warning", JOptionPane.YES_NO_OPTION);            
-            if(dialogResult == JOptionPane.YES_OPTION){
+            int dialogResult = showConfirmDialog(null, "Deseja remover esta festa?", "Warning", JOptionPane.YES_NO_OPTION);
+            if (dialogResult == JOptionPane.YES_OPTION) {
                 festaAppService.exclui(this.umaFesta);
                 this.dispose();
             }
-            
+
         } catch (LanceNaoEncontradoException ex) {
             Logger.getLogger(DialogAniversariante.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removerBtnActionPerformed
 
-    private void salvarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarBtnActionPerformed
-        
-        umaFesta.setData(Util.strToCalendar(campoData.getText()));        
+    private void incluirBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incluirBtnActionPerformed
+        umaFesta.setData(Util.strToCalendar(campoData.getText()));
+
         try {
-            if(this.estado==ESTADO_NOVO){
-                festaAppService.inclui(umaFesta);
-            }else if(this.estado == ESTADO_EDITAVEL){
+            if (this.estado == ESTADO_NOVO) {
+                festaAppService.inclui(umaFesta);                
+            } else if (this.estado == ESTADO_EDITAVEL) {
                 festaAppService.altera(umaFesta);
+                tabelaDeFestasDoAniversarianteModel.fireTableDataChanged();
             }
             this.salvo();
         } catch (ProdutoNaoEncontradoException ex) {
@@ -210,79 +223,87 @@ public class DialogFesta extends javax.swing.JDialog {
         } catch (DataDeLanceInvalidaException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
 
-    }//GEN-LAST:event_salvarBtnActionPerformed
+    }//GEN-LAST:event_incluirBtnActionPerformed
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
         this.dispose();
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void buscarAniversarianteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAniversarianteBtnActionPerformed
-        DialogTabelaAniversariantes dialog = new DialogTabelaAniversariantes(this,true);
+        DialogTabelaAniversariantes dialog = new DialogTabelaAniversariantes(this, true);
         dialog.setVisible(true);
-        
+
     }//GEN-LAST:event_buscarAniversarianteBtnActionPerformed
 
-    public void setAniversariante(Aniversariante a){
-        this.umaFesta.setAniversariante(a);
-        this.campoAniversariante.setText(a.getPrimeiroNome()+" "+a.getSobrenome());
-    }
-    public void setFesta(Festa festa){
-        this.umaFesta = festa;
-        this.campoAniversariante.setText(umaFesta.getAniversariante().getPrimeiroNome() + " " + umaFesta.getAniversariante().getSobrenome());
-        this.campoData.setText(Util.calendarToStr(umaFesta.getData()));
+    public void setAniversariante(long aniversarianteID) {
+        try {
+            this.umaFesta.setAniversariante(aniversarianteAppService.recuperaUmAniversariante(aniversarianteID));
+            this.campoAniversariante.setText(umaFesta.getAniversariante().getPrimeiroNome() + " " + umaFesta.getAniversariante().getSobrenome());
+        } catch (ProdutoNaoEncontradoException ex) {
+            Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
-    public void novo(){
-        salvarBtn.setEnabled(true);
+    public void setFesta(long festaID) {
+
+        try {
+            Festa festa = festaAppService.recuperaFestaEAniversariante(festaID);
+            this.umaFesta.setAniversariante(festa.getAniversariante());
+            this.campoAniversariante.setText(umaFesta.getAniversariante().getPrimeiroNome() + " " + umaFesta.getAniversariante().getSobrenome());
+            this.umaFesta.setData(festa.getData());
+            this.campoData.setText(Util.calendarToStr(umaFesta.getData()));
+        } catch (LanceNaoEncontradoException ex) {
+            Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void novo(boolean busca) {
+        incluirBtn.setEnabled(true);
         editarBtn.setEnabled(false);
         removerBtn.setEnabled(false);
         cancelarBtn.setEnabled(true);
-        
+        buscarAniversarianteBtn.setEnabled(busca);
         campoData.setEditable(true);
-        
+
         this.estado = ESTADO_NOVO;
     }
-    
-    public void salvo(){
-        salvarBtn.setEnabled(false);
+
+    public void salvo() {
+        incluirBtn.setEnabled(false);
         editarBtn.setEnabled(true);
         removerBtn.setEnabled(true);
         cancelarBtn.setEnabled(true);
-        
+
         campoData.setEditable(false);
-        
+
         this.estado = ESTADO_SALVO;
     }
-    
-    public void editavel(){
-        salvarBtn.setEnabled(true);
+
+    public void editavel() {
+        incluirBtn.setEnabled(true);
         editarBtn.setEnabled(false);
         removerBtn.setEnabled(false);
         cancelarBtn.setEnabled(true);
-        
+
         campoData.setEditable(true);
-        
+
         this.estado = ESTADO_EDITAVEL;
     }
-    
-    
-    
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscarAniversarianteBtn;
     private javax.swing.JTextField campoAniversariante;
     private javax.swing.JTextField campoData;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JButton editarBtn;
+    private javax.swing.JButton incluirBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton removerBtn;
-    private javax.swing.JButton salvarBtn;
     // End of variables declaration//GEN-END:variables
 }

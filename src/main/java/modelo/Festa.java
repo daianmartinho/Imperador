@@ -27,15 +27,15 @@ import util.Util;
 		{	@NamedQuery
 			(	name = "Festa.recuperaListaDeFestas",
 				query = "select f from Festa f left outer join fetch f.aniversariante order by f.id"
-			),                        
+			),
+                        @NamedQuery
+			(	name = "Festa.recuperaFestaEAniversariante",
+				query = "select f from Festa f left outer join fetch f.aniversariante where f.id = ?1 order by f.id"
+			),   
 			@NamedQuery
 			(	name = "Festa.recuperaUltimaFesta",
 				query = "select f from Festa f where f.aniversariante = ?1 order by f.id desc"
-			),
-			@NamedQuery
-			(	name = "Festa.recuperaFestasDoAniversariante",
-				query = "select f from Festa f where f.aniversariante.id = ?3"
-			),
+			),			
                         @NamedQuery
 			(	name = "Festa.recuperaQtdDeRegistrosDoAniversariante",
 				query = "select Count(f) from Festa f where f.aniversariante.id = ?1"                                

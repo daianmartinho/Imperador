@@ -6,6 +6,9 @@
 package visao;
 
 import modelo.Aniversariante;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import service.AniversarianteAppService;
 
 /**
  *
@@ -16,12 +19,13 @@ public class DialogTabelaAniversariantes extends javax.swing.JDialog {
     /**
      * Creates new form DialogTabelaAniversariantes
      */
-    DialogFesta parent;
+    DialogFesta parent;   
+    
     public DialogTabelaAniversariantes(DialogFesta parent, boolean modal) {
         super(parent, modal);
         this.parent = parent;
         initComponents();
-        AniversarianteModel model = new AniversarianteModel();
+        TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
         model.setBuscaPorNome("");
         tabelaDeAniversariantes.setModel(model);
     }
@@ -136,7 +140,7 @@ public class DialogTabelaAniversariantes extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
-        AniversarianteModel model = new AniversarianteModel();
+        TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
         model.setBuscaPorNome(campoBuscar.getText());
         tabelaDeAniversariantes.setModel(model);
     }//GEN-LAST:event_buscarBtnActionPerformed
@@ -146,8 +150,8 @@ public class DialogTabelaAniversariantes extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void confirmarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarBtnActionPerformed
-        Aniversariante aniversarianteSelecionado = (Aniversariante)tabelaDeAniversariantes.getModel().getValueAt(tabelaDeAniversariantes.getSelectedRow(), -1);
-        parent.setAniversariante(aniversarianteSelecionado);
+        long aniversarianteSelecionadoID = (long)tabelaDeAniversariantes.getModel().getValueAt(tabelaDeAniversariantes.getSelectedRow(), 0);        
+        parent.setAniversariante(aniversarianteSelecionadoID);
         this.dispose();
     }//GEN-LAST:event_confirmarBtnActionPerformed
 

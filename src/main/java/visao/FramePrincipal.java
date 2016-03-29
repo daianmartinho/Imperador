@@ -56,12 +56,12 @@ public class FramePrincipal extends javax.swing.JFrame {
         bodyContainer = new javax.swing.JPanel();
         inicioPainel = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<String>();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        jList2 = new javax.swing.JList<String>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
+        jList3 = new javax.swing.JList<String>();
         aniversariantesPainel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tabelaDeAniversariantes = new javax.swing.JTable();
@@ -135,10 +135,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Aniversariantes do mês"));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jList1);
 
@@ -149,10 +149,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Próximas festas"));
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        jList2.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList2);
 
@@ -160,10 +160,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Notificações"));
 
-        jList3.setModel(new javax.swing.AbstractListModel<String>() {
+        jList3.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane3.setViewportView(jList3);
 
@@ -185,6 +185,9 @@ public class FramePrincipal extends javax.swing.JFrame {
             }
         ));
         tabelaDeAniversariantes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaDeAniversariantesMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tabelaDeAniversariantesMousePressed(evt);
             }
@@ -330,7 +333,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void aniversariantesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aniversariantesBtnActionPerformed
         CardLayout lm = (CardLayout)bodyContainer.getLayout();
-        AniversarianteModel model = new AniversarianteModel();
+        TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
         model.setBuscaPorNome("");
         tabelaDeAniversariantes.setModel(model);
         lm.show(bodyContainer,"aniversariantesCard");
@@ -342,7 +345,7 @@ public class FramePrincipal extends javax.swing.JFrame {
 
     private void novaFestaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaFestaBtnActionPerformed
         DialogFesta dialog = new DialogFesta(this,true);
-        dialog.novo();
+        dialog.novo(true);
         dialog.setVisible(true);
     }//GEN-LAST:event_novaFestaBtnActionPerformed
 
@@ -355,34 +358,44 @@ public class FramePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaDeAniversariantesMousePressed
 
     private void novoAniversarianteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoAniversarianteBtnActionPerformed
-        DialogAniversariante dialog = new DialogAniversariante(this,true,tabelaDeAniversariantes);
+        DialogAniversariante dialog = new DialogAniversariante(this,true);
         dialog.novo();
         dialog.setVisible(true);
         
     }//GEN-LAST:event_novoAniversarianteBtnActionPerformed
 
     private void buscarAniversarianteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAniversarianteBtnActionPerformed
-        AniversarianteModel model = new AniversarianteModel();
+        TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
         model.setBuscaPorNome(campoBuscarAniversariante.getText());
         tabelaDeAniversariantes.setModel(model);
     }//GEN-LAST:event_buscarAniversarianteBtnActionPerformed
 
     private void festasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_festasBtnActionPerformed
         CardLayout lm = (CardLayout)bodyContainer.getLayout();
-        FestaModel model = new FestaModel();        
+        TabelaDeFestasModel model = new TabelaDeFestasModel();        
         tabelaDeFestas.setModel(model);
         lm.show(bodyContainer,"festasCard");
     }//GEN-LAST:event_festasBtnActionPerformed
 
     private void tabelaDeFestasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeFestasMouseClicked
         if(evt.getClickCount()==2){
-            Festa festa = (Festa)tabelaDeFestas.getModel().getValueAt(tabelaDeFestas.getSelectedRow(),-1);
+            long festaID = (long)tabelaDeFestas.getModel().getValueAt(tabelaDeFestas.getSelectedRow(),0);
             DialogFesta dialog = new DialogFesta(this,true);
-            dialog.setFesta(festa);
+            dialog.setFesta(festaID);
             dialog.salvo();
             dialog.setVisible(true);
         }
     }//GEN-LAST:event_tabelaDeFestasMouseClicked
+
+    private void tabelaDeAniversariantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeAniversariantesMouseClicked
+        if(evt.getClickCount()==2){
+            long aniversarianteID = (long)tabelaDeAniversariantes.getModel().getValueAt(tabelaDeAniversariantes.getSelectedRow(),0);
+            DialogAniversariante dialog = new DialogAniversariante(this,true);
+            dialog.setAniversariante(aniversarianteID);
+            dialog.salvo();
+            dialog.setVisible(true);
+        }
+    }//GEN-LAST:event_tabelaDeAniversariantesMouseClicked
 
     /**
      * @param args the command line arguments

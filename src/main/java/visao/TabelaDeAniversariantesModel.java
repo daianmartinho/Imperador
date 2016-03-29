@@ -15,14 +15,14 @@ import service.AniversarianteAppService;
 import excecao.ProdutoNaoEncontradoException;
 import java.util.LinkedHashMap;
 
-public class AniversarianteModel extends AbstractTableModel {
+public class TabelaDeAniversariantesModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 1L;
-    public static final int COLUNA_OBJETO = -1;
+
     public static final int COLUNA_NUMERO = 0;
     public static final int COLUNA_NOME = 1;
     public static final int COLUNA_SOBRENOME = 2;
-    
+
     private final static int NUMERO_DE_LINHAS_POR_PAGINA = 10;
 
     //private String[] idades = {"", "até 30 anos", "de 31 a 40 anos", "de 41 a 50 anos", "acima de 50 anos" };
@@ -40,7 +40,7 @@ public class AniversarianteModel extends AbstractTableModel {
     private Integer qtd;
     private String primeiroNome;
 
-    public AniversarianteModel() {
+    public TabelaDeAniversariantesModel() {
         this.qtd = null;
         this.cache = new HashMap<>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 / 100 + 2);
     }
@@ -56,10 +56,7 @@ public class AniversarianteModel extends AbstractTableModel {
         if (c == COLUNA_NOME) {
             return "Nome";
         }
-//		if(c == COLUNA_SEXO) return "Sexo";
-//		if(c == COLUNA_IDADE) return "Idade";
-//		if(c == COLUNA_NEWS_LETTER) return "News Letter";
-//		if(c == COLUNA_ACAO) return "A??o";
+
         return null;
     }
 
@@ -124,39 +121,30 @@ public class AniversarianteModel extends AbstractTableModel {
         rowIndexAnterior = rowIndex;
 
         Aniversariante aniversariante = cache.get(rowIndex);
-        
-        if (columnIndex == COLUNA_OBJETO) {
-            return aniversariante;
-        } else if (columnIndex == COLUNA_NUMERO) {
-            return aniversariante.getId();
-        } else if (columnIndex == COLUNA_NOME) {
-            return aniversariante.getPrimeiroNome();
-        } //		else if (columnIndex == COLUNA_SEXO)
-        //			return cliente.getSexo();
-        //		else if (columnIndex == COLUNA_IDADE)
-        //			return idades[cliente.getIdade()];
-        //		else if (columnIndex == COLUNA_NEWS_LETTER)
-        //			return cliente.isNewsLetter();
-        else {
-            return null;
+        Object valor = null;
+        switch(columnIndex){
+            case COLUNA_NUMERO: 
+                valor = aniversariante.getId();
+                break;
+            case COLUNA_NOME:
+                valor = aniversariante.getPrimeiroNome() + " " +aniversariante.getSobrenome();
+                break;
         }
+        return valor;
     }
 
     // Para que os campos booleanos sejam renderizados como check box.
     // Neste caso, n?o h? campo boleano.
     public Class<?> getColumnClass(int c) {
         Class<?> classe = null;
-        if (c == COLUNA_NUMERO) {
-            classe = Integer.class;
+        switch (c) {
+            case COLUNA_NUMERO:
+                classe = Integer.class;
+                break;
+            case COLUNA_NOME:
+                classe = String.class;
+                break;
         }
-        if (c == COLUNA_NOME) {
-            classe = String.class;
-        }
-//		if(c == COLUNA_SEXO) classe = String.class;
-//		if(c == COLUNA_IDADE) classe = Integer.class;
-//		if(c == COLUNA_NEWS_LETTER) classe = Boolean.class;
-//		if(c == COLUNA_ACAO) classe = ButtonColumn.class;
-
         return classe;
     }
 
@@ -173,28 +161,16 @@ public class AniversarianteModel extends AbstractTableModel {
         if (c == COLUNA_NOME) {
             umAniversariante.setPrimeiroNome((String) obj);
         }
-        if (c == COLUNA_SOBRENOME) umAniversariante.setSobrenome((String)obj);
+        if (c == COLUNA_SOBRENOME) {
+            umAniversariante.setSobrenome((String) obj);
+        }
 
-//		if(c == COLUNA_IDADE)
-//		{
-//			if(((String)obj).equals("at? 30 anos"))
-//				umCliente.setIdade(1);
-//			else if(((String)obj).equals("de 31 a 40 anos"))
-//				umCliente.setIdade(2);
-//			else if(((String)obj).equals("de 41 a 50 anos"))
-//				umCliente.setIdade(3);
-//			else if(((String)obj).equals("acima de 50 anos"))
-//				umCliente.setIdade(4);
-//		}
-//		
-//		if(c == COLUNA_NEWS_LETTER) umCliente.setNewsLetter((Boolean)obj);
         try {
             aniversarianteAppService.altera(umAniversariante);
         } catch (ProdutoNaoEncontradoException e) {
             e.printStackTrace();
         }
     }
-    public void limparCache(){
-        this.cache.clear();        
-    }
+
+    
 }

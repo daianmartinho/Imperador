@@ -33,11 +33,11 @@ import util.Util;
 			),
 			@NamedQuery
 			(	name = "Aniversariante.recuperaListaDeAniversariantesEFestas",
-				query = "select distinct a from Aniversariante a left outer join fetch a.festas order by a.id asc"
+				query = "select distinct a from Aniversariante a left outer join fetch a.festas"
 			),
 			@NamedQuery
 			(	name = "Aniversariante.recuperaAniversariantes",
-				query = "select a from Aniversariante a where a.primeiroNome like ?3 order by a.primeiroNome asc"                                
+				query = "select a from Aniversariante a where a.primeiroNome like ?3"                                
 			),
                         @NamedQuery
 			(	name = "Aniversariante.recuperaQtdDeRegistros",

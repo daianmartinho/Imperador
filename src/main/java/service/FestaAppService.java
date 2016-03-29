@@ -121,17 +121,21 @@ public class FestaAppService
 		{	throw new LanceNaoEncontradoException("Festa não encontrada.");
 		}
 	}
+        
+        public Festa recuperaFestaEAniversariante(long numero) 
+		throws LanceNaoEncontradoException
+	{	try
+		{	return festaDAO.recuperaFestaEAniversariante(numero);
+		} 
+		catch(ObjetoNaoEncontradoException e)
+		{	throw new LanceNaoEncontradoException("Festa não encontrada.");
+		}
+	}
 
 	public List<Festa> recuperaFestas(int deslocamento, int linhasPorPagina)
 	{	return festaDAO.recuperaListaDeFestas(deslocamento,linhasPorPagina);
 	}
-       public List<Festa> recuperaFestasDoAniversariante(long aniversarianteID) 
-	{	
-		List<Festa> festas = festaDAO.recuperaFestasDoAniversariante(-1,-1,aniversarianteID);
-		return festas;
-	}        
-        
-        
+         
         public int recuperaQtdDeFestasDoAniversariante(long aniversarianteID) 
 	{	
             int qtd = festaDAO.recuperaQtdDeRegistrosDoAniversariante(aniversarianteID);

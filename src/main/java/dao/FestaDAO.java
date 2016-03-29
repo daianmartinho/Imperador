@@ -16,14 +16,14 @@ public interface FestaDAO extends DaoGenerico<Festa, Long>
 	@RecuperaUltimoOuPrimeiro
 	Festa recuperaUltimaFesta(Aniversariante aniversariante)
 		throws ObjetoNaoEncontradoException; 
-        
-        @RecuperaLista
-        List<Festa> recuperaFestasDoAniversariante(int des,int lin,long aniversarianteID);
-        
        
         @RecuperaObjeto
         int recuperaQtdDeRegistrosDoAniversariante(long nome);
         
         @RecuperaObjeto
         int recuperaQtdDeRegistros();
+        
+        @RecuperaObjeto
+	Festa recuperaFestaEAniversariante(long numero) 
+		throws ObjetoNaoEncontradoException;
 }
