@@ -38,10 +38,10 @@
             <version>1.2.14</version>
         </dependency>
         <dependency>
-	<groupId>mysql</groupId>
-	<artifactId>mysql-connector-java</artifactId>
-	<version>5.1.6</version>
-</dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
 
         <dependency>
             <groupId>cglib</groupId>
@@ -50,6 +50,17 @@
             <type>jar</type>
         </dependency>
         
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.8</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>

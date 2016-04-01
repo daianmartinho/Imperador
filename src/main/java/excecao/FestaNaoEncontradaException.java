@@ -3,11 +3,11 @@ package excecao;
 import anotacao.ExcecaoDeAplicacao;
 
 @ExcecaoDeAplicacao
-public class ValorDeLanceInvalidoException extends Exception
+public class FestaNaoEncontradaException extends AplicacaoException
 {	
 	private final static long serialVersionUID = 1;
 
-	public ValorDeLanceInvalidoException(String msg)
+	public FestaNaoEncontradaException(String msg)
 	{	super(msg);
 	}
 }	

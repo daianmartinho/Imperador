@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import dao.FestaDAO;
 import dao.AniversarianteDAO;
 import excecao.DataDeLanceInvalidaException;
-import excecao.LanceNaoEncontradoException;
+import excecao.FestaNaoEncontradaException;
 import excecao.ObjetoNaoEncontradoException;
-import excecao.ProdutoNaoEncontradoException;
-import excecao.ValorDeLanceInvalidoException;
+import excecao.AniversarianteNaoEncontradoException;
+import excecao.AplicacaoException;
 import modelo.Festa;
 import modelo.Aniversariante;
 import util.Util;
@@ -31,7 +31,7 @@ public class FestaAppService
 	}
 
 	@Transactional
-	public long inclui(Festa umaFesta) throws ProdutoNaoEncontradoException, ValorDeLanceInvalidoException, DataDeLanceInvalidaException 
+	public long inclui(Festa umaFesta) throws AniversarianteNaoEncontradoException, AplicacaoException, DataDeLanceInvalidaException 
 	{
 		// A  implementa��o do  m�todo  getPorIdComLock(umProduto.getId()) 
 		// impede que dois  lances  sejam  cadastrados em  paralelo, i. �, 
@@ -90,45 +90,45 @@ public class FestaAppService
 	}	
         @Transactional
 	public void altera(Festa umaFesta)
-		throws ProdutoNaoEncontradoException
+		throws AniversarianteNaoEncontradoException
 	{	try
 		{	festaDAO.getPorIdComLock(umaFesta.getId());
 			festaDAO.altera(umaFesta);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Festa n�o encontrada");
+		{	throw new AniversarianteNaoEncontradoException("Festa n�o encontrada");
 		}
 	}
         
 	@Transactional
 	public void exclui(Festa umaFesta) 
-		throws LanceNaoEncontradoException 
+		throws FestaNaoEncontradaException 
 	{	try
 		{	umaFesta = festaDAO.getPorId(umaFesta.getId());
 			festaDAO.exclui(umaFesta);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LanceNaoEncontradoException("Festa não encontrada.");
+		{	throw new FestaNaoEncontradaException("Festa não encontrada.");
 		}
 	}
 
 	public Festa recuperaUmaFesta(long numero) 
-		throws LanceNaoEncontradoException
+		throws FestaNaoEncontradaException
 	{	try
 		{	return festaDAO.getPorId(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LanceNaoEncontradoException("Festa não encontrada.");
+		{	throw new FestaNaoEncontradaException("Festa não encontrada.");
 		}
 	}
         
         public Festa recuperaFestaEAniversariante(long numero) 
-		throws LanceNaoEncontradoException
+		throws FestaNaoEncontradaException
 	{	try
 		{	return festaDAO.recuperaFestaEAniversariante(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new LanceNaoEncontradoException("Festa não encontrada.");
+		{	throw new FestaNaoEncontradaException("Festa não encontrada.");
 		}
 	}
 

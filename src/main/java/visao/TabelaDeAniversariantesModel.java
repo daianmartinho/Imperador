@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import service.AniversarianteAppService;
-import excecao.ProdutoNaoEncontradoException;
+import excecao.AniversarianteNaoEncontradoException;
 import java.util.LinkedHashMap;
 
 public class TabelaDeAniversariantesModel extends AbstractTableModel {
@@ -167,7 +167,7 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
 
         try {
             aniversarianteAppService.altera(umAniversariante);
-        } catch (ProdutoNaoEncontradoException e) {
+        } catch (AniversarianteNaoEncontradoException e) {
             e.printStackTrace();
         }
     }

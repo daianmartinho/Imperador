@@ -5,7 +5,7 @@
  */
 package visao;
 
-import excecao.ProdutoNaoEncontradoException;
+import excecao.AniversarianteNaoEncontradoException;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -22,6 +22,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.AniversarianteAppService;
 import util.Util;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -315,10 +317,12 @@ public class DialogAniversariante extends javax.swing.JDialog {
         umAniversariante.setEndereco(enderecoCampo.getText());
         umAniversariante.setTelefone(telefoneCampo.getText());
         umAniversariante.setEmail(emailCampo.getText());
-        
+        System.out.println("antes"+tabelaDeAniversariantes.getModel().getRowCount());
         aniversarianteAppService.inclui(umAniversariante);
+        
         TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
         model.setBuscaPorNome("");
+        System.out.println(model.getRowCount());
         this.tabelaDeAniversariantes.setModel(model);
         this.salvo();
         
@@ -346,7 +350,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
                 this.dispose();
             }
             
-        } catch (ProdutoNaoEncontradoException ex) {
+        } catch (AniversarianteNaoEncontradoException ex) {
             Logger.getLogger(DialogAniversariante.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removerBtnActionPerformed
@@ -416,11 +420,14 @@ public class DialogAniversariante extends javax.swing.JDialog {
                 femRadio.setEnabled(true);
             }
         
-        } catch (ProdutoNaoEncontradoException ex) {
+        } catch (AniversarianteNaoEncontradoException ex) {
             Logger.getLogger(DialogAniversariante.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }       
         
-        
+    }
+    
+    public void setTabelaParaUpdate(JTable tabela) {
+        this.tabelaDeAniversariantes = tabela;
     }
 
 
@@ -455,4 +462,5 @@ public class DialogAniversariante extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField telefoneCampo;
     private javax.swing.JLabel telefoneLabel;
     // End of variables declaration//GEN-END:variables
+
 }

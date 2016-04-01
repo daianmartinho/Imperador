@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dao.AniversarianteDAO;
 import excecao.ObjetoNaoEncontradoException;
-import excecao.ProdutoNaoEncontradoException;
+import excecao.AniversarianteNaoEncontradoException;
 import java.util.HashMap;
 import java.util.HashSet;
 import modelo.Aniversariante;
@@ -21,25 +21,26 @@ public class AniversarianteAppService
 	{	this.aniversarianteDAO = aniversarianteDAO;
 	}
 	
+        @Transactional
 	public long inclui(Aniversariante umAniversariante) 
 	{	return aniversarianteDAO.inclui(umAniversariante).getId();
 	}
 
 	@Transactional
 	public void altera(Aniversariante umAniversariante)
-		throws ProdutoNaoEncontradoException
+		throws AniversarianteNaoEncontradoException
 	{	try
 		{	aniversarianteDAO.getPorIdComLock(umAniversariante.getId());
 			aniversarianteDAO.altera(umAniversariante);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Aniversariante não encontrado");
+		{	throw new AniversarianteNaoEncontradoException("Aniversariante não encontrado");
 		}
 	}
 
 	@Transactional
 	public void exclui(Aniversariante umAniversariante) 
-		throws ProdutoNaoEncontradoException
+		throws AniversarianteNaoEncontradoException
 	{	try
 		{	Aniversariante aniversariante = aniversarianteDAO.recuperaUmAniversarianteEFestas(umAniversariante.getId());
 
@@ -50,27 +51,27 @@ public class AniversarianteAppService
 			aniversarianteDAO.exclui(aniversariante);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Aniversariante não encontrado");
+		{	throw new AniversarianteNaoEncontradoException("Aniversariante não encontrado");
 		}
 	}
 
 	public Aniversariante recuperaUmAniversariante(long numero) 
-		throws ProdutoNaoEncontradoException
+		throws AniversarianteNaoEncontradoException
 	{	try
 		{	return aniversarianteDAO.getPorId(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Aniversariante não encontrado");
+		{	throw new AniversarianteNaoEncontradoException("Aniversariante não encontrado");
 		}
 	}
 
 	public Aniversariante recuperaUmAniversarianteEFestas(long numero) 
-		throws ProdutoNaoEncontradoException
+		throws AniversarianteNaoEncontradoException
 	{	try
 		{	return aniversarianteDAO.recuperaUmAniversarianteEFestas(numero);
 		} 
 		catch(ObjetoNaoEncontradoException e)
-		{	throw new ProdutoNaoEncontradoException("Aniversariante não encontrado");
+		{	throw new AniversarianteNaoEncontradoException("Aniversariante não encontrado");
 		}
 	}
 

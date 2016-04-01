@@ -5,7 +5,7 @@
  */
 package visao;
 
-import excecao.ProdutoNaoEncontradoException;
+import excecao.AniversarianteNaoEncontradoException;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.util.logging.Level;
@@ -360,6 +360,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private void novoAniversarianteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoAniversarianteBtnActionPerformed
         DialogAniversariante dialog = new DialogAniversariante(this,true);
         dialog.novo();
+        dialog.setTabelaParaUpdate(tabelaDeAniversariantes);
         dialog.setVisible(true);
         
     }//GEN-LAST:event_novoAniversarianteBtnActionPerformed
@@ -391,6 +392,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         if(evt.getClickCount()==2){
             long aniversarianteID = (long)tabelaDeAniversariantes.getModel().getValueAt(tabelaDeAniversariantes.getSelectedRow(),0);
             DialogAniversariante dialog = new DialogAniversariante(this,true);
+            dialog.setTabelaParaUpdate(tabelaDeAniversariantes);
             dialog.setAniversariante(aniversarianteID);
             dialog.salvo();
             dialog.setVisible(true);

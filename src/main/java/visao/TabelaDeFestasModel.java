@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import service.AniversarianteAppService;
-import excecao.ProdutoNaoEncontradoException;
+import excecao.AniversarianteNaoEncontradoException;
 import java.util.Calendar;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -190,7 +190,7 @@ public class TabelaDeFestasModel extends AbstractTableModel {
 
         try {
             festaAppService.altera(umaFesta);
-        } catch (ProdutoNaoEncontradoException e) {
+        } catch (AniversarianteNaoEncontradoException e) {
             e.printStackTrace();
         }
     }

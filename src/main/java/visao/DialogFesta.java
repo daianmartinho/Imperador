@@ -6,9 +6,9 @@
 package visao;
 
 import excecao.DataDeLanceInvalidaException;
-import excecao.LanceNaoEncontradoException;
-import excecao.ProdutoNaoEncontradoException;
-import excecao.ValorDeLanceInvalidoException;
+import excecao.FestaNaoEncontradaException;
+import excecao.AniversarianteNaoEncontradoException;
+import excecao.AplicacaoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -21,6 +21,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.FestaAppService;
 import util.Util;
 import static visao.DialogAniversariante.aniversarianteAppService;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showConfirmDialog;
 
 /**
  *
@@ -200,7 +207,7 @@ public class DialogFesta extends javax.swing.JDialog {
                 this.dispose();
             }
 
-        } catch (LanceNaoEncontradoException ex) {
+        } catch (FestaNaoEncontradaException ex) {
             Logger.getLogger(DialogAniversariante.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removerBtnActionPerformed
@@ -216,9 +223,9 @@ public class DialogFesta extends javax.swing.JDialog {
                 tabelaDeFestasDoAniversarianteModel.fireTableDataChanged();
             }
             this.salvo();
-        } catch (ProdutoNaoEncontradoException ex) {
+        } catch (AniversarianteNaoEncontradoException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ValorDeLanceInvalidoException ex) {
+        } catch (AplicacaoException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DataDeLanceInvalidaException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
@@ -240,7 +247,7 @@ public class DialogFesta extends javax.swing.JDialog {
         try {
             this.umaFesta.setAniversariante(aniversarianteAppService.recuperaUmAniversariante(aniversarianteID));
             this.campoAniversariante.setText(umaFesta.getAniversariante().getPrimeiroNome() + " " + umaFesta.getAniversariante().getSobrenome());
-        } catch (ProdutoNaoEncontradoException ex) {
+        } catch (AniversarianteNaoEncontradoException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -254,7 +261,7 @@ public class DialogFesta extends javax.swing.JDialog {
             this.campoAniversariante.setText(umaFesta.getAniversariante().getPrimeiroNome() + " " + umaFesta.getAniversariante().getSobrenome());
             this.umaFesta.setData(festa.getData());
             this.campoData.setText(Util.calendarToStr(umaFesta.getData()));
-        } catch (LanceNaoEncontradoException ex) {
+        } catch (FestaNaoEncontradaException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
         }
 

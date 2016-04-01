@@ -3,7 +3,7 @@ package excecao;
 import anotacao.ExcecaoDeAplicacao;
 
 @ExcecaoDeAplicacao
-public class DataDeLanceInvalidaException extends Exception
+public class DataDeLanceInvalidaException extends AplicacaoException
 {	
 	private final static long serialVersionUID = 1;
 

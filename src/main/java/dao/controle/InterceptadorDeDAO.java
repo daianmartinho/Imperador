@@ -61,7 +61,7 @@ public class InterceptadorDeDAO implements MethodInterceptor
         	return daoGenerico.busca(metodo, args);
         }               
         else 
-        {  	throw new InfraestruturaException("Um m√©todo n√£o final deixou de ser anotado");
+        {  	throw new InfraestruturaException("Um mÈtodo n„o final deixou de ser anotado");
         	// return metodoDoProxy.invokeSuper(objeto, args);
         }
     }
