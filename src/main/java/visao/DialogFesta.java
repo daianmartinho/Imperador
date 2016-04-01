@@ -227,9 +227,7 @@ public class DialogFesta extends javax.swing.JDialog {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
         } catch (AplicacaoException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DataDeLanceInvalidaException ex) {
-            Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
 
     }//GEN-LAST:event_incluirBtnActionPerformed
 
@@ -260,7 +258,7 @@ public class DialogFesta extends javax.swing.JDialog {
             this.umaFesta.setAniversariante(festa.getAniversariante());
             this.campoAniversariante.setText(umaFesta.getAniversariante().getPrimeiroNome() + " " + umaFesta.getAniversariante().getSobrenome());
             this.umaFesta.setData(festa.getData());
-            this.campoData.setText(Util.calendarToStr(umaFesta.getData()));
+            this.campoData.setText(umaFesta.getDataMasc());
         } catch (FestaNaoEncontradaException ex) {
             Logger.getLogger(DialogFesta.class.getName()).log(Level.SEVERE, null, ex);
         }

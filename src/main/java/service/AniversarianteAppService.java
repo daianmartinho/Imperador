@@ -79,14 +79,15 @@ public class AniversarianteAppService
 	{	return aniversarianteDAO.recuperaListaDeAniversariantesEFestas();
 	}
         
-        public List<Aniversariante> recuperaAniversariantes(int deslocamento, int linhasPorPagina, String nome ) 
+        public List<Aniversariante> recuperaAniversariantes(int deslocamento, int linhasPorPagina, String nome) 
 	{	
+                
 		List<Aniversariante> aniversariantes = aniversarianteDAO.recuperaAniversariantes(deslocamento, linhasPorPagina, nome + "%");
 
 		return aniversariantes;
 	}
         
-        public List<Aniversariante> recuperaAniversariantes(String nome ) 
+        public List<Aniversariante> recuperaAniversariantes(String nome) 
 	{			
 		return recuperaAniversariantes(-1,-1,nome);
 	}

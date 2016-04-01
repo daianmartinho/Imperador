@@ -1,6 +1,7 @@
 package aspecto;
 
 import excecao.AplicacaoException;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,7 +17,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class AspectoAround {
 
-    Logger logger;
+    private static final Logger logger = LogManager.getLogger(AspectoAround.class);
     
     @Pointcut("call(* service.*.*(..))")
     public void traduzExcecaoAround() {
@@ -29,7 +30,7 @@ public class AspectoAround {
         } catch (Throwable t) {
 
             if (!(t instanceof AplicacaoException)) {
-                logger = new Logger();
+                logger.error(t.getMessage());
             }
             throw t;
         }

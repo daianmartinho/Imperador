@@ -26,7 +26,7 @@ public class DialogTabelaAniversariantes extends javax.swing.JDialog {
         this.parent = parent;
         initComponents();
         TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
-        model.setBuscaPorNome("");
+        model.setBusca("");
         tabelaDeAniversariantes.setModel(model);
     }
 
@@ -141,7 +141,7 @@ public class DialogTabelaAniversariantes extends javax.swing.JDialog {
 
     private void buscarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarBtnActionPerformed
         TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
-        model.setBuscaPorNome(campoBuscar.getText());
+        model.setBusca(campoBuscar.getText());
         tabelaDeAniversariantes.setModel(model);
     }//GEN-LAST:event_buscarBtnActionPerformed
 

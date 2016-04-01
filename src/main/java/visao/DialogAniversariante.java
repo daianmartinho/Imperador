@@ -6,6 +6,7 @@
 package visao;
 
 import excecao.AniversarianteNaoEncontradoException;
+import java.awt.Color;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -85,6 +86,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
         novaFestaBtn = new javax.swing.JButton();
         salvarBtn = new javax.swing.JButton();
         cancelarBtn = new javax.swing.JButton();
+        codigoLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -168,6 +170,8 @@ public class DialogAniversariante extends javax.swing.JDialog {
             }
         });
 
+        codigoLabel.setText("ID:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -228,7 +232,9 @@ public class DialogAniversariante extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(removerBtn)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cancelarBtn)))
+                                        .addComponent(cancelarBtn)
+                                        .addGap(89, 89, 89)
+                                        .addComponent(codigoLabel)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(66, 66, 66))))
         );
@@ -240,7 +246,8 @@ public class DialogAniversariante extends javax.swing.JDialog {
                     .addComponent(editarBtn)
                     .addComponent(removerBtn)
                     .addComponent(salvarBtn)
-                    .addComponent(cancelarBtn))
+                    .addComponent(cancelarBtn)
+                    .addComponent(codigoLabel))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(primeiroNomeLabel)
@@ -321,7 +328,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
         aniversarianteAppService.inclui(umAniversariante);
         
         TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
-        model.setBuscaPorNome("");
+        model.setBusca("");
         System.out.println(model.getRowCount());
         this.tabelaDeAniversariantes.setModel(model);
         this.salvo();
@@ -345,7 +352,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
                 aniversarianteAppService.exclui(this.umAniversariante);
                 
                 TabelaDeAniversariantesModel model = new TabelaDeAniversariantesModel();
-                model.setBuscaPorNome("");                
+                model.setBusca("");                
                 tabelaDeAniversariantes.setModel(model);
                 this.dispose();
             }
@@ -412,13 +419,21 @@ public class DialogAniversariante extends javax.swing.JDialog {
             this.umAniversariante = aniversarianteAppService.recuperaUmAniversarianteEFestas(aniversarianteID);
             TabelaDeFestasDoAniversarianteModel model = new TabelaDeFestasDoAniversarianteModel(this.umAniversariante.getFestas());            
             tabelaDeFestasDoAniversariante.setModel(model);             
-            primeiroNomeCampo.setText(umAniversariante.getPrimeiroNome());
+            primeiroNomeCampo.setText(umAniversariante.getPrimeiroNome());            
             sobrenomeCampo.setText(umAniversariante.getSobrenome());
+            
             if(umAniversariante.getSexo() == 1){
-                mascRadio.setEnabled(true);
+                mascRadio.setSelected(true);
             }else{
-                femRadio.setEnabled(true);
+                femRadio.setSelected(true);
             }
+            codigoLabel.setText("ID: "+umAniversariante.getId());
+            dataAniversarioCampo.setText(umAniversariante.getDataMasc());
+            nomeDaMaeCampo.setText(umAniversariante.getNomeDaMae());
+            nomeDoPaiCampo.setText(umAniversariante.getNomeDoPai());
+            telefoneCampo.setText(umAniversariante.getTelefone());
+            enderecoCampo.setText(umAniversariante.getTelefone());
+            emailCampo.setText(umAniversariante.getEmail());
         
         } catch (AniversarianteNaoEncontradoException ex) {
             Logger.getLogger(DialogAniversariante.class.getName()).log(Level.SEVERE, null, ex);
@@ -434,6 +449,7 @@ public class DialogAniversariante extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelarBtn;
+    private javax.swing.JLabel codigoLabel;
     private javax.swing.JFormattedTextField dataAniversarioCampo;
     private javax.swing.JLabel dataAniversarioLabel;
     private javax.swing.JButton editarBtn;

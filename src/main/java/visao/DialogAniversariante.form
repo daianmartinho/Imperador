@@ -114,6 +114,8 @@
                                           <Component id="removerBtn" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="cancelarBtn" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                                          <Component id="codigoLabel" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -134,6 +136,7 @@
                       <Component id="removerBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="salvarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cancelarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="codigoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -327,6 +330,11 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelarBtnActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="codigoLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="ID:"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

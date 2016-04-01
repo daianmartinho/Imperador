@@ -128,7 +128,7 @@ public class Aniversariante
 	
 	@Transient
 	public String getDataMasc()
-	{	return Util.calendarToStr(dataAniversario);
+	{	return Util.calendarToStr(dataAniversario,"date");
 	}
 	@Column(name="aniv_nome_da_mae")
 	public String getNomeDaMae()
@@ -160,7 +160,7 @@ public class Aniversariante
 	
 	@Transient
 	public String getDataCadastroMasc()
-	{	return Util.calendarToStr(dataCadastro);
+	{	return Util.calendarToStr(dataCadastro,"datetime");
 	}
 
 

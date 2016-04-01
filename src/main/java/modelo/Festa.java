@@ -96,7 +96,7 @@ public class Festa
 	
 	@Transient
 	public String getDataMasc()
-	{	return Util.calendarToStr(data);
+	{	return Util.calendarToStr(data,"datetime");
 	}
        
         

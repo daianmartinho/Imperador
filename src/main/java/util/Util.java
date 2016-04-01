@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 
 public class Util {
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-    private static NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
+    private static final SimpleDateFormat datetime = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private static final SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+    private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+    private static final NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
 
     static {
         nf.setMaximumFractionDigits(2);	   // O default é 3.
@@ -32,8 +34,8 @@ public class Util {
             Integer.parseInt(umaData.substring(3, 5));
             Integer.parseInt(umaData.substring(6, 10));
 
-            sdf.setLenient(false);
-            sdf.parse(umaData);
+            datetime.setLenient(false);
+            datetime.parse(umaData);
             return true;
         } catch (Exception e) {
             return false;
@@ -50,7 +52,7 @@ public class Util {
 
     public static Date strToDateTime(String umaData) {
         try {
-            Date date = sdf.parse(umaData);
+            Date date = datetime.parse(umaData);
             return date;
         } catch (ParseException ex) {
             Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +63,7 @@ public class Util {
     public static Calendar strToCalendar(String umaData) {
         Calendar data = Calendar.getInstance();
         try {
-            data.setTime(sdf.parse(umaData));
+            data.setTime(datetime.parse(umaData));
         } catch (ParseException ex) {
             Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -86,14 +88,29 @@ public class Util {
     }
 
     public static String dateToStr(Date umaData) {
-        return sdf.format(umaData);
+        return date.format(umaData);
     }
+      
 
-    public static String calendarToStr(Calendar umaData) {
+    public static String calendarToStr(Calendar umaData, String tipo) {
+        String saida = "";
         if (umaData == null) {
             return "";
         } else {
-            return sdf.format(umaData.getTime());
+            
+            switch(tipo){
+                case "date":
+                    saida = date.format(umaData.getTime());
+                    break;
+                case "time":
+                    saida = time.format(umaData.getTime());
+                    break;
+                case "datetime":   
+                    saida = datetime.format(umaData.getTime());
+                    break;                    
+            }
+            
+            return saida;           
         }
     }
 

@@ -38,15 +38,15 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
     private Map<Integer, Aniversariante> cache;
     private int rowIndexAnterior = 0;
     private Integer qtd;
-    private String primeiroNome;
+    private String parametrosDeBusca;
 
     public TabelaDeAniversariantesModel() {
         this.qtd = null;
         this.cache = new HashMap<>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 / 100 + 2);
     }
 
-    public void setBuscaPorNome(String primeiroNome) {
-        this.primeiroNome = primeiroNome;
+    public void setBusca(String parametros) {
+        this.parametrosDeBusca = parametrosDeBusca;
     }
 
     public String getColumnName(int c) {
@@ -68,7 +68,7 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         if (qtd == null) {
-            qtd = aniversarianteAppService.recuperaQtdDeRegistros(primeiroNome);
+            qtd = aniversarianteAppService.recuperaQtdDeRegistros(parametrosDeBusca);
         }
         return qtd;
     }
@@ -80,7 +80,7 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
                 cache.clear();
 
                 if (rowIndex >= rowIndexAnterior) {
-                    List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(rowIndex - (NUMERO_DE_LINHAS_POR_PAGINA - 1), NUMERO_DE_LINHAS_POR_PAGINA * 2, primeiroNome);
+                    List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(rowIndex - (NUMERO_DE_LINHAS_POR_PAGINA - 1), NUMERO_DE_LINHAS_POR_PAGINA * 2, parametrosDeBusca);
                     for (int j = 0; j < resultados.size(); j++) {
                         Aniversariante aniversariante = resultados.get(j);
                         cache.put(rowIndex - (NUMERO_DE_LINHAS_POR_PAGINA - 1) + j, aniversariante);
@@ -90,7 +90,7 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
                     if (inicio < 0) {
                         inicio = 0;
                     }
-                    List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(inicio, NUMERO_DE_LINHAS_POR_PAGINA * 2, primeiroNome);
+                    List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(inicio, NUMERO_DE_LINHAS_POR_PAGINA * 2, parametrosDeBusca);
 
                     for (int j = 0; j < resultados.size(); j++) {
                         Aniversariante aniversariante = resultados.get(j);
@@ -98,7 +98,7 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
                     }
                 }
             } else if (rowIndex >= rowIndexAnterior) {
-                List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(rowIndex, NUMERO_DE_LINHAS_POR_PAGINA * 2, primeiroNome);
+                List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(rowIndex, NUMERO_DE_LINHAS_POR_PAGINA * 2, parametrosDeBusca);
 
                 for (int j = 0; j < resultados.size(); j++) {
                     Aniversariante aniversariante = resultados.get(j);
@@ -109,7 +109,7 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
                 if (inicio < 0) {
                     inicio = 0;
                 }
-                List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(inicio, NUMERO_DE_LINHAS_POR_PAGINA * 2, primeiroNome);
+                List<Aniversariante> resultados = aniversarianteAppService.recuperaAniversariantes(inicio, NUMERO_DE_LINHAS_POR_PAGINA * 2, parametrosDeBusca);
 
                 for (int j = 0; j < resultados.size(); j++) {
                     Aniversariante aniversariante = resultados.get(j);

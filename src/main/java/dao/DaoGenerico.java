@@ -1,5 +1,6 @@
 package dao;
 
+import anotacao.RecuperaObjeto;
 import org.springframework.transaction.annotation.Transactional;
 
 import excecao.ObjetoNaoEncontradoException;
@@ -21,5 +22,6 @@ public interface DaoGenerico<T, PK>
 
     T getPorId(PK id) throws ObjetoNaoEncontradoException;
 
-    T getPorIdComLock(PK id) throws ObjetoNaoEncontradoException;
+    T getPorIdComLock(PK id) throws ObjetoNaoEncontradoException;    
+   
 }
