@@ -5,15 +5,9 @@
  */
 package visao;
 
-import excecao.AniversarianteNaoEncontradoException;
 import java.awt.CardLayout;
-import java.awt.Container;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import modelo.Aniversariante;
-import modelo.Festa;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.AniversarianteAppService;
@@ -56,12 +50,12 @@ public class FramePrincipal extends javax.swing.JFrame {
         bodyContainer = new javax.swing.JPanel();
         inicioPainel = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<String>();
+        jList1 = new javax.swing.JList<>();
         jSplitPane2 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<String>();
+        jList2 = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<String>();
+        jList3 = new javax.swing.JList<>();
         aniversariantesPainel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tabelaDeAniversariantes = new javax.swing.JTable();
@@ -74,7 +68,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         tabelaDeFestas = new javax.swing.JTable();
         novaFestaBtn = new javax.swing.JButton();
         buscarFestaBtn = new javax.swing.JButton();
-        campoBuscaFesta = new javax.swing.JTextField();
+        campoBuscaFesta0 = new javax.swing.JTextField();
         campoBuscaFesta1 = new javax.swing.JTextField();
         campoBuscaFesta2 = new javax.swing.JTextField();
 
@@ -138,10 +132,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Aniversariantes do mês"));
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jList1);
 
@@ -152,10 +146,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Próximas festas"));
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
+        jList2.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList2);
 
@@ -163,10 +157,10 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Notificações"));
 
-        jList3.setModel(new javax.swing.AbstractListModel() {
+        jList3.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+            public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane3.setViewportView(jList3);
 
@@ -307,7 +301,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                         .addGroup(festasPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(buscarFestaBtn)
                             .addGroup(festasPainelLayout.createSequentialGroup()
-                                .addComponent(campoBuscaFesta, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(campoBuscaFesta0, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(campoBuscaFesta1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -323,7 +317,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                     .addComponent(buscarFestaBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(festasPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoBuscaFesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoBuscaFesta0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoBuscaFesta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(campoBuscaFesta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -368,7 +362,23 @@ public class FramePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_aniversariantesBtnActionPerformed
 
     private void buscarFestaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarFestaBtnActionPerformed
-        // TODO add your handling code here:
+        List<String> params = new ArrayList();
+        
+        if(!campoBuscaFesta0.getText().isEmpty()){
+            params.add(campoBuscaFesta0.getText());
+        }
+        if(!campoBuscaFesta1.getText().isEmpty()){
+            params.add(campoBuscaFesta1.getText());
+        }
+        if(!campoBuscaFesta1.getText().isEmpty()){
+            params.add(campoBuscaFesta1.getText());
+        }
+        
+        TabelaDeFestasModel model = new TabelaDeFestasModel();
+        
+        model.setBusca(params);
+        tabelaDeAniversariantes.setModel(model);
+        
     }//GEN-LAST:event_buscarFestaBtnActionPerformed
 
     private void novaFestaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaFestaBtnActionPerformed
@@ -473,7 +483,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel bodyContainer;
     private javax.swing.JButton buscarAniversarianteBtn;
     private javax.swing.JButton buscarFestaBtn;
-    private javax.swing.JTextField campoBuscaFesta;
+    private javax.swing.JTextField campoBuscaFesta0;
     private javax.swing.JTextField campoBuscaFesta1;
     private javax.swing.JTextField campoBuscaFesta2;
     private javax.swing.JTextField campoBuscarAniversariante;

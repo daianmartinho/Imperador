@@ -13,7 +13,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import service.AniversarianteAppService;
 import excecao.AniversarianteNaoEncontradoException;
-import java.util.LinkedHashMap;
 
 public class TabelaDeAniversariantesModel extends AbstractTableModel {
 
@@ -46,7 +45,7 @@ public class TabelaDeAniversariantesModel extends AbstractTableModel {
     }
 
     public void setBusca(String parametros) {
-        this.parametrosDeBusca = parametrosDeBusca;
+        this.parametrosDeBusca = parametros;
     }
 
     public String getColumnName(int c) {

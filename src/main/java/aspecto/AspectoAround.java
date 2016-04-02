@@ -19,7 +19,7 @@ public class AspectoAround {
 
     private static final Logger logger = LogManager.getLogger(AspectoAround.class);
     
-    @Pointcut("call(* service.*.*(..))")
+    @Pointcut("execution(* visao.*.*(..))")
     public void traduzExcecaoAround() {
     }
 

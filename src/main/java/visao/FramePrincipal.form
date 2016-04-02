@@ -388,7 +388,7 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="buscarFestaBtn" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="campoBuscaFesta" min="-2" pref="149" max="-2" attributes="0"/>
+                                      <Component id="campoBuscaFesta0" min="-2" pref="149" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="campoBuscaFesta1" min="-2" pref="149" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -411,7 +411,7 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="campoBuscaFesta" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoBuscaFesta0" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoBuscaFesta1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoBuscaFesta2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -464,7 +464,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buscarFestaBtnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="campoBuscaFesta">
+            <Component class="javax.swing.JTextField" name="campoBuscaFesta0">
             </Component>
             <Component class="javax.swing.JTextField" name="campoBuscaFesta1">
             </Component>

@@ -5,28 +5,18 @@
  */
 package visao;
 
-import excecao.DataDeLanceInvalidaException;
 import excecao.FestaNaoEncontradaException;
 import excecao.AniversarianteNaoEncontradoException;
 import excecao.AplicacaoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import javax.swing.JTable;
-import modelo.Aniversariante;
 import modelo.Festa;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import service.FestaAppService;
 import util.Util;
 import static visao.DialogAniversariante.aniversarianteAppService;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showConfirmDialog;
 
 /**

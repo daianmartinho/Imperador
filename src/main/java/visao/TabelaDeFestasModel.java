@@ -11,11 +11,8 @@ import modelo.Aniversariante;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import service.AniversarianteAppService;
 import excecao.AniversarianteNaoEncontradoException;
 import java.util.Calendar;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import modelo.Festa;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -23,7 +20,7 @@ import service.FestaAppService;
 
 public class TabelaDeFestasModel extends AbstractTableModel {
 
-    private static Logger logger = LogManager.getLogger(TabelaDeFestasModel.class);
+    
     private static final long serialVersionUID = 1L;
     
     
@@ -46,11 +43,16 @@ public class TabelaDeFestasModel extends AbstractTableModel {
     private Map<Integer, Festa> cache;
     private int rowIndexAnterior = 0;
     private Integer qtd;    
-
+    private List<String> parametrosDeBusca;
+    
     public TabelaDeFestasModel() {
         this.qtd = null;
         this.cache = new HashMap<>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 / 100 + 2);
         
+    }
+    
+    public void setBusca(List params){
+        this.parametrosDeBusca = params;
     }
      
 
@@ -140,7 +142,7 @@ public class TabelaDeFestasModel extends AbstractTableModel {
             return festa.getDataMasc();
         }
         else if (columnIndex == COLUNA_ANIVERSARIANTE) {             
-            return festa.getAniversariante().getPrimeiroNome();            
+            return festa.getAniversariante().getPrimeiroNome() +" "+festa.getAniversariante().getSobrenome() ;            
         }
 
         else {

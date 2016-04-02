@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import dao.AniversarianteDAO;
 import excecao.ObjetoNaoEncontradoException;
 import excecao.AniversarianteNaoEncontradoException;
-import java.util.HashMap;
-import java.util.HashSet;
 import modelo.Aniversariante;
 
 public class AniversarianteAppService
